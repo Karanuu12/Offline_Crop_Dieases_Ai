@@ -47,7 +47,7 @@ if uploaded_file is not None:
     st.subheader("🧪 Diagnosis")
     st.success(f"**{disease}**")
     st.write(f"Confidence: **{confidence:.2f}%**")
-=======
+
 import streamlit as st
 import numpy as np
 from PIL import Image
