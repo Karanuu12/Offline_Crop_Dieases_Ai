@@ -400,8 +400,8 @@ if uploaded_file is not None:
         """)
     
     with tab3:
-    st.markdown("#### 📊 Confidence Scores Across All Classes")
-    st.markdown("---")
+        st.markdown("#### 📊 Confidence Scores Across All Classes")
+        st.markdown("---")
 
     for i, lbl in enumerate(class_labels):
         col_a, col_b = st.columns([3, 1])
