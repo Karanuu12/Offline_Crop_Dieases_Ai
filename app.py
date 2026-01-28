@@ -219,7 +219,7 @@ with st.sidebar:
     st.write("**Architecture:** MobileNetV2")
     st.write("**Training:** Transfer Learning")
     st.write("**Inference:** Offline (TensorFlow Lite)")
-    st.write("**Classes:** 4 banana leaf diseases")
+    st.write("**Classes:** Cordana, Healthy, Pestalotiopsis, Sigatoka")
     st.write("**Input Size:** 224×224 RGB")
     
     st.markdown("---")
@@ -288,7 +288,7 @@ if uploaded_file is not None:
     # primary result
     if disease == "Healthy":
         st.success(f"✅ **{disease}**")
-    elif disease == "Panama Disease":
+    elif disease == "Pestalotiopsis":
         st.error(f"🚨 **{disease}**")
     else:
         st.warning(f"⚠️ **{disease}**")
@@ -330,18 +330,19 @@ if uploaded_file is not None:
             ],
             "prevention": "Preventive fungicide application during wet seasons"
         },
-        "Panama Disease": {
-            "severity": "error",
-            "emoji": "🚨",
-            "actions": [
-                "⚠️ ISOLATE affected plants immediately",
-                "🚫 DO NOT replant bananas in this soil for 5+ years",
-                "🔥 Remove and burn entire plant (roots included)",
-                "🧫 Disinfect tools and footwear to prevent spread",
-                "🌾 Consider crop rotation with non-susceptible plants"
-            ],
-            "prevention": "Use resistant varieties. No cure exists for this disease."
-        },
+        "Pestalotiopsis": {
+    "severity": "error",
+    "emoji": "🚨",
+    "actions": [
+        "✂️ Prune and destroy infected leaves immediately",
+        "🧪 Apply recommended fungicides (Carbendazim / Mancozeb)",
+        "🌬️ Improve air circulation by proper spacing",
+        "💧 Avoid overhead irrigation and excess moisture",
+        "🧼 Disinfect tools after pruning"
+    ],
+    "prevention": "Maintain field hygiene and avoid prolonged leaf wetness."
+},
+
         "Sigatoka": {
             "severity": "warning",
             "emoji": "⚠️",
@@ -390,7 +391,7 @@ if uploaded_file is not None:
         
         **🔴 Cordana:** Small dark spots with yellow halos  
         **🟡 Sigatoka:** Long parallel streaks turning brown/black  
-        **🔴 Panama Disease:** Yellowing from leaf edges, wilting  
+        **🔴 Pestalotiopsis:** Irregular brown to black leaf spots with yellow margins  
         **🟢 Healthy:** Uniform green color, no visible damage  
         
         ---
