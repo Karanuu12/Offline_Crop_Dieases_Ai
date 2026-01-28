@@ -4,7 +4,7 @@ from PIL import Image
 import tensorflow as tf
 
 # loading the tflite model
-interp = tf.lite.Interpreter(model_path="banana_leaf_multiclass.tflite")
+interp = tf.lite.Interpreter(model_path="banana_leaf_multiclass_v2.tflite")
 interp.allocate_tensors()
 
 inp_details = interp.get_input_details()
