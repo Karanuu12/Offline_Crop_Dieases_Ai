@@ -400,19 +400,21 @@ if uploaded_file is not None:
         """)
     
     with tab3:
-        st.markdown("#### 📊 Confidence Scores Across All Classes:")
-        st.markdown("---")
+    st.markdown("#### 📊 Confidence Scores Across All Classes")
+    st.markdown("---")
+
     for i, lbl in enumerate(class_labels):
         col_a, col_b = st.columns([3, 1])
-    with col_a:
-        if i == top1_idx:
-            st.progress(float(predictions[i]), text=f"⭐ **{lbl} (Top Prediction)**")
-        elif i == top2_idx:
-            st.progress(float(predictions[i]), text=f"➡️ **{lbl} (Alternative)**")
-        else:
-            st.progress(float(predictions[i]), text=f"{lbl}")
-    with col_b:
-        st.markdown(f"**{predictions[i]*100:.1f}%**")
+        with col_a:
+            if i == top1_idx:
+                st.progress(float(predictions[i]), text=f"⭐ {lbl} (Top)")
+            elif i == top2_idx:
+                st.progress(float(predictions[i]), text=f"➡️ {lbl} (Alt)")
+            else:
+                st.progress(float(predictions[i]), text=lbl)
+        with col_b:
+            st.markdown(f"**{predictions[i]*100:.1f}%**")
+
 
 
 else:
