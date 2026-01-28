@@ -259,20 +259,50 @@ if uploaded_file is not None:
         interp.invoke()
         predictions = interp.get_tensor(out_details[0]['index'])[0]
 
-        pred_idx = np.argmax(predictions)
-        disease = class_labels[pred_idx]
-        conf = predictions[pred_idx] * 100
+        # sort predictions
+        sorted_idx = np.argsort(predictions)[::-1]
 
-        st.markdown("### 🧪 Diagnosis Result")
-        
-        if disease == "Healthy":
-            st.success(f"✅ **{disease}**")
-        elif disease == "Panama Disease":
-            st.error(f"🚨 **{disease}**")
-        else:
-            st.warning(f"⚠️ **{disease}**")
-        
-        st.metric("Confidence Level", f"{conf:.1f}%")
+        top1_idx = sorted_idx[0]
+        top2_idx = sorted_idx[1]
+
+        top1_disease = class_labels[top1_idx]
+        top2_disease = class_labels[top2_idx]
+
+        top1_conf = predictions[top1_idx] * 100
+        top2_conf = predictions[top2_idx] * 100
+
+        disease = top1_disease
+        conf = top1_conf
+
+
+    st.markdown("### 🧪 Diagnosis Result")
+
+    # confidence interpretation
+    if conf >= 70:
+        confidence_level = "High confidence"
+    elif conf >= 50:
+        confidence_level = "Medium confidence"
+    else:
+        confidence_level = "Low confidence"
+
+    # primary result
+    if disease == "Healthy":
+        st.success(f"✅ **{disease}**")
+    elif disease == "Panama Disease":
+        st.error(f"🚨 **{disease}**")
+    else:
+        st.warning(f"⚠️ **{disease}**")
+
+    st.metric("Confidence Level", f"{conf:.1f}% ({confidence_level})")
+
+    # uncertainty warning
+    if conf < 60:
+        st.warning(
+            f"⚠️ **Uncertain Prediction**\n\n"
+            f"The symptoms overlap between **{top1_disease}** and **{top2_disease}**. "
+            f"Please capture another image in better lighting or consult an expert."
+        )
+
 
     st.markdown("---")
 
@@ -371,12 +401,18 @@ if uploaded_file is not None:
     with tab3:
         st.markdown("#### 📊 Confidence Scores Across All Classes:")
         st.markdown("---")
-        for i, lbl in enumerate(class_labels):
-            col_a, col_b = st.columns([3, 1])
-            with col_a:
-                st.progress(float(predictions[i]), text=f"**{lbl}**")
-            with col_b:
-                st.markdown(f"**{predictions[i]*100:.1f}%**")
+    for i, lbl in enumerate(class_labels):
+        col_a, col_b = st.columns([3, 1])
+    with col_a:
+        if i == top1_idx:
+            st.progress(float(predictions[i]), text=f"⭐ **{lbl} (Top Prediction)**")
+        elif i == top2_idx:
+            st.progress(float(predictions[i]), text=f"➡️ **{lbl} (Alternative)**")
+        else:
+            st.progress(float(predictions[i]), text=f"{lbl}")
+    with col_b:
+        st.markdown(f"**{predictions[i]*100:.1f}%**")
+
 
 else:
     st.info("👆 Please upload a banana leaf image to begin diagnosis")
